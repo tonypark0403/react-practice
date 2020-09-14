@@ -3,7 +3,7 @@ import { getNextFriend } from '../../common/mockData';
 import { actions } from '../state';
 import FriendList from '../component/FriendList';
 import NumberSelect from '../component/NumberSelect';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { MAX_AGE_LIMIT, MAX_SHOW_LIMIT } from '../common';
 import {
   getAgeLimit,
@@ -55,7 +55,7 @@ export default function FriendMain() {
         onChange={(v) => dispatch(actions.setValue('ageLimit', v))}
         value={ageLimit}
         options={AGE_LIMIT_OPTIONS}
-        postfix=' old display'
+        postfix=' years old - display'
       />
       <FriendList friends={friendsWithAgeLimit} />
       <NumberSelect
@@ -63,7 +63,7 @@ export default function FriendMain() {
         onChange={(v) => dispatch(actions.setValue('showLimit', v))}
         value={showLimit}
         options={SHOW_LIMIT_OPTIONS}
-        postfix=' numbers display'
+        postfix=' people with age filter - display'
       />
       <FriendList friends={friendsWithAgeShowLimit} />
     </div>
