@@ -23,6 +23,7 @@ export const types = {
   ADD_LIKE: 'timeline/ADD_LIKE',
   SET_LOADING: 'timeline/SET_LOADING',
   SET_VALUE: 'timeline/SET_VALUE',
+  TRY_SET_TEXT: 'timeline/TRY_SET_TEXT',
 };
 
 export const actions = {
@@ -37,6 +38,10 @@ export const actions = {
     isLoading,
   }),
   setValue: createSetValueAction(types.SET_VALUE),
+  trySetText: (text) => ({
+    type: types.TRY_SET_TEXT,
+    text,
+  }),
 };
 
 const INITIAL_STATE = {
@@ -44,6 +49,7 @@ const INITIAL_STATE = {
   nextPage: 0,
   isLoading: false,
   error: '',
+  text: '',
 };
 const reducer = createReducer(INITIAL_STATE, {
   [types.ADD]: (state, action) => state.timelines.push(action.timeline),
