@@ -9,7 +9,7 @@ app.use(
   cors({
     origin: 'http://localhost:3000',
     credentials: true,
-  }),
+  })
 );
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -26,7 +26,7 @@ app.get('/user/search', (req, res) => {
           throw err;
         }
         res.send(makeResponse({ data: rows }));
-      },
+      }
     );
   }, 1);
 });
@@ -87,7 +87,7 @@ app.post('/user/update', (req, res) => {
           }
           history.id = this.lastID;
           res.send(makeResponse({ data: { history } }));
-        },
+        }
       );
     });
   }, 1);
@@ -117,8 +117,8 @@ app.post('/auth/login', (req, res) => {
         res.send(
           makeResponse({
             resultCode: -1,
-            resultMessage: '존재하지 않는 사용자입니다.',
-          }),
+            resultMessage: `${name} is not signed up yet.`,
+          })
         );
       }
     });
@@ -142,8 +142,8 @@ app.post('/auth/signup', (req, res) => {
       res.send(
         makeResponse({
           resultCode: -1,
-          resultMessage: '이메일 형식이 아닙니다.',
-        }),
+          resultMessage: 'Please follow the email format',
+        })
       );
       return;
     }
@@ -157,12 +157,12 @@ app.post('/auth/signup', (req, res) => {
         res.send(
           makeResponse({
             resultCode: -1,
-            resultMessage: '이미 존재하는 사용자입니다.',
-          }),
+            resultMessage: `${name} is already signed up.`,
+          })
         );
       } else {
         const sql = `INSERT INTO user(name, department, tag) VALUES (?,?,?)`;
-        db.run(sql, [name, '소속없음', ''], function (err) {
+        db.run(sql, [name, 'No team', ''], function (err) {
           if (err) {
             return console.error(err.message);
           }
