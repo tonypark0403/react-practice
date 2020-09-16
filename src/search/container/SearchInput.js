@@ -3,6 +3,8 @@ import { SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Input, Space, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../state';
+import { actions as userActions } from '../../user/state';
+import { useHistory } from 'react-router-dom';
 
 export default function SearchInput() {
   const keyword = useSelector((state) => state.search.keyword);
@@ -15,7 +17,15 @@ export default function SearchInput() {
   }
 
   const autoCompletes = useSelector((state) => state.search.autoCompletes);
-  function goToUser(value) {}
+
+  const history = useHistory(); // for routing
+  function goToUser(value) {
+    const user = autoCompletes.find((item) => item.name === value);
+    if (user) {
+      dispatch(userActions.setValue('user', user));
+      history.push(`/user/${user.name}`);
+    }
+  }
   return (
     <AutoComplete
       value={keyword}
