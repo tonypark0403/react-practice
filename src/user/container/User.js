@@ -15,6 +15,7 @@ import useFetchInfo from '../../common/hook/useFetchInfo';
 import Department from './Department';
 import History from '../../common/component/History';
 import TagList from './TagList';
+import useNeedLogin from '../../common/hook/useNeedLogin';
 
 /**
  *
@@ -22,6 +23,7 @@ import TagList from './TagList';
  * @param {import('react-router').match} param.match
  */
 export default function User({ match }) {
+  useNeedLogin();
   const history = useHistory();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
