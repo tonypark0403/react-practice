@@ -1,13 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  PageHeader,
-  Col,
-  Row,
-  Descriptions,
-  Typography,
-  Space,
-  Spin,
-} from 'antd';
+import { PageHeader, Col, Row, Descriptions, Typography } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions, Types } from '../state';
@@ -16,6 +8,7 @@ import Department from './Department';
 import History from '../../common/component/History';
 import TagList from './TagList';
 import useNeedLogin from '../../common/hook/useNeedLogin';
+import FetchLabel from '../component/FetchLabel';
 
 /**
  *
@@ -35,19 +28,21 @@ export default function User({ match }) {
     dispatch(actions.fetchUserHistory(name));
   }, [name, dispatch]);
 
+  useEffect(() => {
+    return () => dispatch(actions.initialize());
+  }, [dispatch]);
+
   // const { isFetched } = useFetchInfo(Types.FetchUser, name);
-  const { isFetched, isSlow } = useFetchInfo(Types.FetchUser);
+  const { isFetched } = useFetchInfo(Types.FetchUser);
 
   return (
     <Row justify='center'>
       <Col xs={24} md={20} lg={14}>
         <PageHeader
-          onBack={history.goBack}
+          // onBack={history.goBack}
+          onBack={() => history.push('/search')}
           title={
-            <Space>
-              User Information
-              {isSlow && <Spin size='small' />}
-            </Space>
+            <FetchLabel label='User Information' actionType={Types.FetchUser} />
           }
         >
           {user && (
@@ -55,10 +50,26 @@ export default function User({ match }) {
               <Descriptions.Item label='Name'>
                 <Typography.Text>{user.name}</Typography.Text>
               </Descriptions.Item>
-              <Descriptions.Item label='Team'>
+              <Descriptions.Item
+                label={
+                  <FetchLabel
+                    label='Department'
+                    actionType={Types.FetchUpdateUser}
+                    fetchKey='department'
+                  />
+                }
+              >
                 <Department />
               </Descriptions.Item>
-              <Descriptions.Item label='Tag'>
+              <Descriptions.Item
+                label={
+                  <FetchLabel
+                    label='Tag'
+                    actionType={Types.FetchUpdateUser}
+                    fetchKey='tag'
+                  />
+                }
+              >
                 <TagList />
               </Descriptions.Item>
               <Descriptions.Item label='Update'>
